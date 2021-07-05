@@ -1,5 +1,5 @@
-from flask_restful import Recources
+from flask_restful import Resource
 from models.store import StoreModel
 
-class Store(Recources):
+class Store(Resource):
     pass

@@ -1,7 +1,7 @@
-from flask_restful import Recources
+from flask_restful import Resource, reqparse
 from models.product import ProductModel
 
 
 
-class Product(Recources):
+class Product(Resource):
     pass
