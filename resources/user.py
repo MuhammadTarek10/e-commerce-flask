@@ -30,3 +30,7 @@ class UserRegister(Resource):
         user.save_to_database()
 
         return {"message": "user created successfully!"}, 201
+
+class UserList(Resource):
+    def get(self):
+        return {"Users": [user.json() for user in UserModel.query.all()]}

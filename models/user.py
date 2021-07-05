@@ -17,6 +17,9 @@ class UserModel(database.Model):
         database.session.add(self)
         database.session.commit()
 
+    def json(self):
+        return {"username": self.username, "email": self.email}
+
     @classmethod
     def find_by_username(cls, username):
         return cls.query.filter_by(username=username).first()
