@@ -27,14 +27,38 @@ class Product(Resource):
         data = self.parser.parse_args()
         product = ProductModel(name, **data)
 
-        product.save_to_database()
-
-        # try:
-        #     product.save_to_database()
-        # except:
-        #     return {"message": "error while adding to database"}, 500
+        try:
+            product.save_to_database()
+        except:
+            return {"message": "error while adding to database"}, 500
 
         return product.json(), 201
+
+    def delete(self, name):
+        product = ProductModel.find_by_name(name)
+        if product:
+            try:
+                product.delete_from_database()
+            except:
+                return {"message": "error while adding to database"}, 500
+        else:
+            return {"message": "no product named {}".format(name)}
+
+    def put(self, name):
+        product = ProductModel.find_by_name(name)
+        data = self.parser.parse_args()
+        if product:
+            product.price = data['price']
+        else:
+            product = ProductModel(name, **data)
+
+        try:
+            product.save_to_database()
+        except:
+            return {"message": "error while adding to database"}, 500
+
+        return product.json()
+
 
 class ProductList(Resource):
     def get(self):
