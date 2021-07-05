@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
 from security import authentication, identity
-from resources.product import Product
+from resources.product import Product, ProductList
 #from resources.store import Store
 from resources.user import UserRegister
 
@@ -10,15 +10,15 @@ from resources.user import UserRegister
 
 # just setting database and app
 app = Flask(__name__)
-app.config['SQLAlCHEMY_DATABASE_URI'] = 'sqlite:///database.db/'
-app.config['SQLAlCHEMY_TRACH_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db/'
+app.config['SQLALCEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'Tarek'
 api = Api(app)
 
 jwt = JWT(app, authentication, identity)
 
 
-# creating the table
+# creating the tables
 @app.before_first_request
 def create_table():
     database.create_all()
@@ -28,6 +28,8 @@ def create_table():
 
 api.add_resource(UserRegister, "/register")
 api.add_resource(Product, "/product/<string:name>")
+
+api.add_resource(ProductList, "/products")
 
 
 if __name__ == '__main__':

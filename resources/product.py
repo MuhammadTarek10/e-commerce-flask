@@ -35,3 +35,7 @@ class Product(Resource):
         #     return {"message": "error while adding to database"}, 500
 
         return product.json(), 201
+
+class ProductList(Resource):
+    def get(self):
+        return {"products": [product.json() for product in ProductModel.query.all()]}
