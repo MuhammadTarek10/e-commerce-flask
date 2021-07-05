@@ -6,10 +6,12 @@ class UserModel(database.Model):
     id = database.Column(database.Integer, primary_key=True)
     username = database.Column(database.String(80))
     password = database.Column(database.String(80))
+    email = database.Column(database.String(120))
 
-    def __init__(self, username, password):
+    def __init__(self, username, password, email):
         self.username = username
         self.password = password
+        self.email = email
 
     def save_to_database(self):
         database.session.add(self)

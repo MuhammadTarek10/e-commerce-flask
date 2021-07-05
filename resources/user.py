@@ -14,6 +14,11 @@ class UserRegister(Resource):
             required=True,
             help="fill that part"
     )
+    parser.add_argument('email',
+            type=str,
+            required=True,
+            help="fill that part"
+    )
 
     def post(self):
         data = self.parser.parse_args()
