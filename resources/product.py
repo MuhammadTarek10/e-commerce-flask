@@ -11,6 +11,11 @@ class Product(Resource):
             required=True,
             help="fill that part"
     )
+    parser.add_argument('store_id',
+            type=int,
+            required=True,
+            help="fill that part"
+    )
 
     def get(self, name):
         product = ProductModel.find_by_name(name)

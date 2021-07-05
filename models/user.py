@@ -3,7 +3,6 @@ from database import database
 class UserModel(database.Model):
     __tablename__ = 'users'
 
-
     id = database.Column(database.Integer, primary_key=True)
     username = database.Column(database.String(80))
     password = database.Column(database.String(80))
