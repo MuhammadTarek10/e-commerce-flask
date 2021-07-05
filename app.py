@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
 from security import authentication, identity
-#from resources.product import Product
+from resources.product import Product
 #from resources.store import Store
 from resources.user import UserRegister
 
@@ -27,6 +27,7 @@ def create_table():
 
 
 api.add_resource(UserRegister, "/register")
+api.add_resource(Product, "/product/<string:name>")
 
 
 if __name__ == '__main__':
