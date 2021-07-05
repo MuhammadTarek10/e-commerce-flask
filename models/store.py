@@ -8,6 +8,7 @@ class StoreModel(database.Model):
     name = database.Column(database.String(80))
 
     products = database.relationship('ProductModel', lazy='dynamic')
+    owner = database.relationship('OwnerModel', lazy='dynamic')
 
     def __init__(self, name):
         self.name = name
