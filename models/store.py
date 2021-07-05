@@ -8,13 +8,13 @@ class StoreModel(database.Model):
     name = database.Column(database.String(80))
 
     products = database.relationship('ProductModel', lazy='dynamic')
-    owner = database.relationship('OwnerModel', lazy='dynamic')
+
 
     def __init__(self, name):
         self.name = name
 
     def json(self):
-        return {"name": self.name, "Store id": self.id, "Products": [product.json() for product in self.products.all()]}
+        return {"name": self.name, "Store id": self.id, "Owner": self.owner_id, "Products": [product.json() for product in self.products.all()]}
 
     @classmethod
     def find_by_name(cls, name):
