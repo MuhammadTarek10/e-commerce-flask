@@ -44,10 +44,12 @@ class Product(Resource):
 
 
     def post(self, name):
-        if ProductModel.find_by_name(name):
-            return {"message": "product already exists"}
 
         data = self.parser.parse_args()
+        product = ProductModel.find_by_name(name)
+        if product:
+            if product.store_id == data['store_id']:
+                return {"message": "product already exists"}
         product = ProductModel(name, **data)
 
         try:
@@ -62,6 +64,7 @@ class Product(Resource):
         if product:
             try:
                 product.delete_from_database()
+                return {"message": "{} deleted".format(name)}
             except:
                 return {"message": "error while adding to database"}, 500
         else:

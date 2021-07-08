@@ -18,10 +18,13 @@ class Store(Resource):
             return {"message": "store named {} not found".format(name)}
 
     def post(self, name):
-        if StoreModel.find_by_name(name):
-            return {"message": "store {} already exists".format(name)}
-
         data = self.parser.parse_args()
+
+        store = StoreModel.find_by_name(name)
+        if store:
+            if store.owner_id == data['owner_id']:
+                return {"message": "store {} already exists".format(name)}
+
         store = StoreModel(name, **data)
         try:
             store.save_to_database()

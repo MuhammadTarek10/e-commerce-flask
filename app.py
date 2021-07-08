@@ -12,7 +12,7 @@ from resources.owner import OwnerRegister, OwnerList
 # just setting database and app
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db/'
-app.config['SQLALCEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'Tarek'
 api = Api(app)
 

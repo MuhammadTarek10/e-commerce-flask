@@ -9,7 +9,7 @@ class StoreModel(database.Model):
     owner_id = database.Column(database.Integer, database.ForeignKey('owners.id'))
 
     products = database.relationship('ProductModel', lazy='dynamic')
-    owner = database.relationship('OwnerModel')
+    owner = database.relationship('OwnerModel', viewonly=True)
 
 
     def __init__(self, name, owner_id):
