@@ -9,7 +9,6 @@ class Product(Resource):
     parser.add_argument('description',
             type=str,
             required=False,
-            help="fill that part"
     )
 
     parser.add_argument('genre',
