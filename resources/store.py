@@ -3,8 +3,9 @@ from models.store import StoreModel
 
 class Store(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('name',
-            type=str,
+
+    parser.add_argument('owner_id',
+            type=int,
             required=True,
             help="fill that part"
     )
@@ -20,7 +21,8 @@ class Store(Resource):
         if StoreModel.find_by_name(name):
             return {"message": "store {} already exists".format(name)}
 
-        store = StoreModel(name)
+        data = self.parser.parse_args()
+        store = StoreModel(name, **data)
         try:
             store.save_to_database()
         except:

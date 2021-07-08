@@ -6,6 +6,24 @@ from models.product import ProductModel
 class Product(Resource):
     parser = reqparse.RequestParser()
 
+    parser.add_argument('description',
+            type=str,
+            required=False,
+            help="fill that part"
+    )
+
+    parser.add_argument('genre',
+            type=str,
+            required=True,
+            help="fill that part"
+    )
+
+    parser.add_argument('available',
+            type=int,
+            required=True,
+            help="fill that part"
+    )
+
     parser.add_argument('price',
             type=float,
             required=True,

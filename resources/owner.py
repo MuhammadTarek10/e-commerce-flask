@@ -4,6 +4,18 @@ from models.owner import OwnerModel
 class OwnerRegister(Resource):
     parser = reqparse.RequestParser()
 
+    parser.add_argument('first_name',
+            type=str,
+            required=True,
+            help="fill that part"
+    )
+
+    parser.add_argument('last_name',
+            type=str,
+            required=True,
+            help="fill that part"
+    )
+
     parser.add_argument('username',
             type=str,
             required=True,
@@ -16,11 +28,6 @@ class OwnerRegister(Resource):
     )
     parser.add_argument('email',
             type=str,
-            required=True,
-            help="fill that part"
-    )
-    parser.add_argument('store_id',
-            type=int,
             required=True,
             help="fill that part"
     )

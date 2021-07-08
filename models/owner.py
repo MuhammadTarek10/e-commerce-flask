@@ -5,18 +5,20 @@ class OwnerModel(database.Model):
     __tablename__ = 'owners'
 
     id = database.Column(database.Integer, primary_key=True)
+    first_name = database.Column(database.String(80))
+    last_name = database.Column(database.String(80))
     username = database.Column(database.String(80))
     password = database.Column(database.String(80))
     email = database.Column(database.String(120))
 
-    store_id = database.Column(database.Integer, database.ForeignKey('stores.id'))
-    store = database.relationship('StoreModel')
+    store = database.relationship('StoreModel', lazy='dynamic')
 
-    def __init__(self, username, password, email, store_id):
+    def __init__(self, first_name, last_name, username, password, email):
+        self.first_name = first_name
+        self.last_name = last_name
         self.username = username
         self.password = password
         self.email = email
-        self.store_id = store_id
 
 
     def save_to_database(self):
@@ -24,7 +26,7 @@ class OwnerModel(database.Model):
         database.session.commit()
 
     def json(self):
-        return {"username": self.username, "email": self.email}
+        return {"name": self.first_name, "email": self.email}
 
     @classmethod
     def find_by_username(cls, username):

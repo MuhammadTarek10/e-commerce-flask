@@ -4,6 +4,8 @@ class UserModel(database.Model):
     __tablename__ = 'users'
 
     id = database.Column(database.Integer, primary_key=True)
+    first_name = database.Column(database.String(80))
+    last_name = database.Column(database.String(80))
     username = database.Column(database.String(80))
     password = database.Column(database.String(80))
     email = database.Column(database.String(120))

@@ -6,15 +6,18 @@ class StoreModel(database.Model):
 
     id = database.Column(database.Integer, primary_key=True)
     name = database.Column(database.String(80))
+    owner_id = database.Column(database.Integer, database.ForeignKey('owners.id'))
 
     products = database.relationship('ProductModel', lazy='dynamic')
+    owner = database.relationship('OwnerModel')
 
 
-    def __init__(self, name):
+    def __init__(self, name, owner_id):
         self.name = name
+        self.owner_id = owner_id
 
     def json(self):
-        return {"name": self.name, "Store id": self.id, "Products": [product.json() for product in self.products.all()]}
+        return {"name": self.name, "store_id": self.id, "products": [product.json() for product in self.products.all()]}
 
     @classmethod
     def find_by_name(cls, name):
