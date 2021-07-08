@@ -17,7 +17,7 @@ class StoreModel(database.Model):
         self.owner_id = owner_id
 
     def json(self):
-        return {"name": self.name, "store_id": self.id, "products": [product.json() for product in self.products.all()]}
+        return {"name": self.name, "store_id": self.id, "owner_id": self.owner_id, "products": [product.json() for product in self.products.all()]}
 
     @classmethod
     def find_by_name(cls, name):

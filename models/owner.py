@@ -11,7 +11,7 @@ class OwnerModel(database.Model):
     password = database.Column(database.String(80))
     email = database.Column(database.String(120))
 
-    store = database.relationship('StoreModel', lazy='dynamic')
+    stores = database.relationship('StoreModel')
 
     def __init__(self, first_name, last_name, username, password, email):
         self.first_name = first_name
@@ -20,13 +20,18 @@ class OwnerModel(database.Model):
         self.password = password
         self.email = email
 
-
     def save_to_database(self):
         database.session.add(self)
         database.session.commit()
 
     def json(self):
-        return {"name": self.first_name, "email": self.email}
+        return {"name": self.first_name, "stores": self.get_stores(), "email": self.email}
+
+    def get_stores(self):
+        values = []
+        for i in range(len(self.stores)):
+            values.append(self.stores[i].name)
+        return values
 
     @classmethod
     def find_by_username(cls, username):
