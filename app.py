@@ -6,6 +6,7 @@ from resources.product import Product, ProductList
 from resources.store import Store, StoreList
 from resources.user import UserRegister, UserList
 from resources.owner import OwnerRegister, OwnerList
+from resources.rate_to_product import RateToPoduct
 
 
 
@@ -28,13 +29,14 @@ def create_table():
 
 
 api.add_resource(UserRegister, "/user/register")
-api.add_resource(OwnerRegister, "/owner/register")
-api.add_resource(Product, "/product/<string:name>")
-api.add_resource(Store, "/store/<string:name>")
 api.add_resource(UserList, "/users")
+api.add_resource(OwnerRegister, "/owner/register")
 api.add_resource(OwnerList, "/owners")
+api.add_resource(Product, "/product/<string:name>")
 api.add_resource(ProductList, "/products")
+api.add_resource(Store, "/store/<string:name>")
 api.add_resource(StoreList, "/stores")
+api.add_resource(RateToPoduct, "/rate")
 
 
 
