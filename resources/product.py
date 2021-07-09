@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 from models.product import ProductModel
+from models.store import StoreModel
 
 
 
@@ -49,6 +50,8 @@ class Product(Resource):
         if product:
             if product.store_id == data['store_id']:
                 return {"message": "product already exists"}
+        if not StoreModel.find_by_id(data['store_id']):
+            return {"message": "no store with that id"}
         product = ProductModel(name, **data)
 
         try:

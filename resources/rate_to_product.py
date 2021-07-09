@@ -1,5 +1,7 @@
 from flask_restful import Resource, reqparse
 from models.rate_to_product import RateToProductModel
+from models.user import UserModel
+from models.product import ProductModel
 
 class RateToPoduct(Resource):
     parser = reqparse.RequestParser()
@@ -28,6 +30,12 @@ class RateToPoduct(Resource):
         if RateToProductModel.find_user_by_id(data['user_id']):
             if RateToProductModel.find_product_by_id(data['product_id']):
                 return {"message": "you already rated this product"}
+
+        if not UserModel.find_by_id(data['user_id']):
+            return {"message": "no user with that id"}
+
+        if not ProductModel.find_by_id(data['product_id']):
+            return {"message": "no product with that id"}
 
         rate = RateToProductModel(**data)
         try:

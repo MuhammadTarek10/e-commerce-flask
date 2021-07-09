@@ -13,7 +13,7 @@ class ProductModel(database.Model):
 
     store_id = database.Column(database.Integer, database.ForeignKey('stores.id'))
     store = database.relationship('StoreModel', viewonly=True)
-    rate_to_product = database.relationship('RateToProductModel')
+    product_rate = database.relationship('RateToProductModel')
 
     def __init__(self, name, description, genre, price, available, store_id):
         self.name = name
@@ -24,17 +24,25 @@ class ProductModel(database.Model):
         self.store_id = store_id
 
     def json(self):
-        return {"name": self.name, "price": self.price, "store_name": self.store.name, "genre": self.genre, "rate": self.get_rate(self.id)}
+        return {"name": self.name, "price": self.price, "store_name": self.store.name, "genre": self.genre, "rate": self.get_rate()}
 
-    def get_rate(self, id):
-        try:
-            return self.rate_to_product[id-1].rate
-        except:
-            return "no rate yet"
+
+    def get_rate(self):
+        mean = 0
+        for rate_model in self.product_rate:
+            if mean == 0:
+                mean = rate_model.rate
+            else:
+                mean = (mean + rate_model.rate)/2
+        return mean
 
     @classmethod
     def find_by_name(cls, name):
         return cls.query.filter_by(name=name).first()
+
+    @classmethod
+    def find_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
 
     def save_to_database(self):
         database.session.add(self)

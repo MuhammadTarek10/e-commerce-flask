@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 from models.store import StoreModel
+from models.owner import OwnerModel
 
 class Store(Resource):
     parser = reqparse.RequestParser()
@@ -24,6 +25,9 @@ class Store(Resource):
         if store:
             if store.owner_id == data['owner_id']:
                 return {"message": "store {} already exists".format(name)}
+
+        if not OwnerModel.find_by_id(data['owner_id']):
+            return {"message": "no owner with that id"}
 
         store = StoreModel(name, **data)
         try:

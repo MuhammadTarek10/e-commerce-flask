@@ -23,6 +23,10 @@ class StoreModel(database.Model):
     def find_by_name(cls, name):
         return cls.query.filter_by(name=name).first()
 
+    @classmethod
+    def find_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
+
     def save_to_database(self):
         database.session.add(self)
         database.session.commit()
