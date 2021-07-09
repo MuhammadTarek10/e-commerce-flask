@@ -23,7 +23,7 @@ class ProductModel(database.Model):
         self.store_id = store_id
 
     def json(self):
-        return {"name": self.name, "price": self.price, "genre": self.genre, "store_id": self.store_id}
+        return {"name": self.name, "price": self.price, "store_name": self.store.name, "genre": self.genre}
 
     @classmethod
     def find_by_name(cls, name):
