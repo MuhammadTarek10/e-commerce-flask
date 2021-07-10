@@ -27,15 +27,14 @@ class RateToPoduct(Resource):
     def post(self):
         data = self.parser.parse_args()
 
-        if RateToProductModel.find_user_by_id(data['user_id']):
-            if RateToProductModel.find_product_by_id(data['product_id']):
-                return {"message": "you already rated this product"}
-
         if not UserModel.find_by_id(data['user_id']):
             return {"message": "no user with that id"}
 
         if not ProductModel.find_by_id(data['product_id']):
             return {"message": "no product with that id"}
+
+        if RateToProductModel.already_rated(**data):
+                return {"message": "you already rated this product"}
 
         rate = RateToProductModel(**data)
         try:

@@ -19,6 +19,19 @@ class RateToProductModel(database.Model):
         database.session.commit()
 
     @classmethod
+    def already_rated(cls, user_id, product_id, rate):
+        user = cls.get_user_id_for_rate(user_id)
+        if user:
+            for rate_model in user:
+                if rate_model.product_id == product_id:
+                    return True
+        return False
+
+    @classmethod
+    def get_user_id_for_rate(cls, id):
+        return cls.query.filter_by(user_id=id).all()
+
+    @classmethod
     def find_user_by_id(cls, id):
         return cls.query.filter_by(user_id=id).first()
 
