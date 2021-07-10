@@ -14,7 +14,6 @@ class RateToOwnerModel(database.Model):
     def json(self):
         return {"user_id": self.user_id, "owner_id": self.owner_id, "rate": self.rate}
 
-
     def save_to_database(self):
         database.session.add(self)
         database.session.commit()
