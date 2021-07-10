@@ -1,14 +1,14 @@
 from database import database
-
+# try to find a better way to get average rate
 
 class OwnerModel(database.Model):
     __tablename__ = 'owners'
 
     id = database.Column(database.Integer, primary_key=True)
-    first_name = database.Column(database.String(80))
-    last_name = database.Column(database.String(80))
-    username = database.Column(database.String(80))
-    password = database.Column(database.String(80))
+    first_name = database.Column(database.String(30))
+    last_name = database.Column(database.String(30))
+    username = database.Column(database.String(30))
+    password = database.Column(database.String(30))
     email = database.Column(database.String(120))
 
     stores = database.relationship('StoreModel')

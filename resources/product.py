@@ -1,4 +1,4 @@
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, reqparse, inputs
 from models.product import ProductModel
 from models.store import StoreModel
 
@@ -19,7 +19,7 @@ class Product(Resource):
     )
 
     parser.add_argument('available',
-            type=int,
+            type=inputs.boolean,
             required=True,
             help="fill that part"
     )

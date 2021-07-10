@@ -1,4 +1,5 @@
 from database import database
+# date is String, try to make it date object
 
 class OrderModel(database.Model):
     __tablename__ = 'orders'

@@ -25,8 +25,7 @@ class ProductModel(database.Model):
         self.store_id = store_id
 
     def json(self):
-        return {"name": self.name, "price": self.price, "store_name": self.store.name, "genre": self.genre, "rate": self.get_rate()}
-
+        return {"name": self.name, "price": self.price, "store_name": self.store.name, "genre": self.genre, "available" : self.available, "rate": self.get_rate()}
 
     def get_rate(self):
         mean = 0
