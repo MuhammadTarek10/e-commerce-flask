@@ -14,6 +14,7 @@ class ProductModel(database.Model):
     store_id = database.Column(database.Integer, database.ForeignKey('stores.id'))
     store = database.relationship('StoreModel', viewonly=True)
     product_rate = database.relationship('RateToProductModel')
+    order = database.relationship('OrderModel')
 
     def __init__(self, name, description, genre, price, available, store_id):
         self.name = name

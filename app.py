@@ -8,6 +8,7 @@ from resources.user import UserRegister, UserList
 from resources.owner import OwnerRegister, OwnerList
 from resources.rate_to_product import RateToPoduct
 from resources.rate_to_owner import RateToOwner
+from resources.order import Order
 
 
 
@@ -39,6 +40,7 @@ api.add_resource(Store, "/store/<string:name>")
 api.add_resource(StoreList, "/stores")
 api.add_resource(RateToPoduct, "/rate_product")
 api.add_resource(RateToOwner, "/rate_owner")
+api.add_resource(Order, "/order")
 
 
 

@@ -39,7 +39,10 @@ class UserRegister(Resource):
             return {"message": "user already exists"}
 
         user = UserModel(**data)
-        user.save_to_database()
+        try:
+            user.save_to_database()
+        except:
+            return {"message": "error in adding to database"}
 
         return {"message": "user created successfully!"}, 201
 
