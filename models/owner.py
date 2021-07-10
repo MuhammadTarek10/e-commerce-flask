@@ -12,6 +12,7 @@ class OwnerModel(database.Model):
     email = database.Column(database.String(120))
 
     stores = database.relationship('StoreModel')
+    owner_rate = database.relationship('RateToOwnerModel')
 
     def __init__(self, first_name, last_name, username, password, email):
         self.first_name = first_name
@@ -25,13 +26,22 @@ class OwnerModel(database.Model):
         database.session.commit()
 
     def json(self):
-        return {"name": self.first_name, "stores": self.get_stores(), "email": self.email}
+        return {"name": self.first_name, "stores": self.get_stores(), "email": self.email, "rate": self.get_rate()}
 
     def get_stores(self):
         values = []
         for i in range(len(self.stores)):
             values.append(self.stores[i].name)
         return values
+
+    def get_rate(self):
+        mean = 0
+        for rate_model in self.owner_rate:
+            if mean == 0:
+                mean = rate_model.rate
+            else:
+                mean = (mean + rate_model.rate)/2
+        return mean
 
     @classmethod
     def find_by_username(cls, username):
