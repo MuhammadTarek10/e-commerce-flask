@@ -1,8 +1,9 @@
 from database import database
-# try to find a better way to get average rate
 
 class OwnerModel(database.Model):
     __tablename__ = 'owners'
+
+    rate = 0
 
     id = database.Column(database.Integer, primary_key=True)
     first_name = database.Column(database.String(30))
@@ -35,13 +36,14 @@ class OwnerModel(database.Model):
         return values
 
     def get_rate(self):
-        mean = 0
+        mean = self.rate
         for rate_model in self.owner_rate:
             if mean == 0:
                 mean = rate_model.rate
             else:
                 mean = (mean + rate_model.rate)/2
-        return mean
+        self.rate = mean
+        return self.rate
 
     @classmethod
     def find_by_username(cls, username):

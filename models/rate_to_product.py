@@ -11,9 +11,6 @@ class RateToProductModel(database.Model):
     user = database.relationship('UserModel', viewonly=True)
     product = database.relationship('ProductModel', viewonly=True)
 
-    def json(self):
-        return {"user_id": self.user_id, "product_id": self.product_id, "rate": self.rate}
-
     def save_to_database(self):
         database.session.add(self)
         database.session.commit()

@@ -4,6 +4,8 @@ from database import database
 class ProductModel(database.Model):
     __tablename__ = 'products'
 
+    rate = 0
+
     id = database.Column(database.Integer, primary_key=True)
     name = database.Column(database.String(80))
     description = database.Column(database.String(300))
@@ -28,13 +30,14 @@ class ProductModel(database.Model):
         return {"name": self.name, "price": self.price, "store_name": self.store.name, "genre": self.genre, "available" : self.available, "rate": self.get_rate()}
 
     def get_rate(self):
-        mean = 0
+        mean = self.rate
         for rate_model in self.product_rate:
             if mean == 0:
                 mean = rate_model.rate
             else:
                 mean = (mean + rate_model.rate)/2
-        return mean
+        self.rate = mean
+        return self.rate
 
     @classmethod
     def find_by_name(cls, name):

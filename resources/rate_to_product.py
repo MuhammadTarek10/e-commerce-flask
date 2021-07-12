@@ -42,4 +42,4 @@ class RateToPoduct(Resource):
         except:
             return {"message": "error while adding to database"}
 
-        return rate.json(), 201
+        return {"message": "rated successfully"}
