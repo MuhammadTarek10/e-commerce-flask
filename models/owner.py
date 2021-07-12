@@ -50,9 +50,14 @@ class OwnerModel(database.Model):
         return cls.query.filter_by(username=username).first()
 
     @classmethod
-    def find_by_id(cls, id):
-        return cls.query.filter_by(id=id).first()
-
-    @classmethod
     def find_by_id(cls, _id):
         return cls.query.filter_by(id=_id).first()
+
+    @classmethod
+    def filter_rate(cls, rate):
+        desired_owners = []
+        owners = cls.query.all()
+        for owner in owners:
+            if rate <= owner.get_rate():
+                desired_owners.append(owner)
+        return desired_owners

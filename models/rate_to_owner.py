@@ -35,3 +35,7 @@ class RateToOwnerModel(database.Model):
     @classmethod
     def find_owner_by_id(cls, id):
         return cls.query.filter_by(owner_id=id).first()
+
+    @classmethod
+    def get_owners_by_rate(cls, rate):
+        return cls.query.filter_by(rate=rate).all()

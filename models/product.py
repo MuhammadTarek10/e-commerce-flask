@@ -54,3 +54,12 @@ class ProductModel(database.Model):
     def delete_from_database(self):
         database.session.delete(self)
         database.session.commit()
+
+    @classmethod
+    def filter_rate(cls, rate):
+        desired_products = []
+        products = cls.query.all()
+        for product in products:
+            if rate <= product.get_rate():
+                desired_products.append(product)
+        return desired_products

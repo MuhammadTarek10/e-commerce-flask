@@ -24,6 +24,15 @@ class RateToPoduct(Resource):
             help='fill that part'
     )
 
+    def get(self):
+        names = []
+        data = self.parser.parse_args()
+        products = ProductModel.filter_rate(data['rate'])
+        for product in products:
+            name = ProductModel.find_by_id(product.id).name
+            names.append(name)
+        return {"products": names}
+
     def post(self):
         data = self.parser.parse_args()
 
