@@ -1,4 +1,5 @@
 from database import database
+import numpy as np
 
 
 class ProductModel(database.Model):
@@ -30,13 +31,10 @@ class ProductModel(database.Model):
         return {"name": self.name, "price": self.price, "store_name": self.store.name, "genre": self.genre, "available" : self.available, "rate": self.get_rate()}
 
     def get_rate(self):
-        mean = self.rate
+        ave = []
         for rate_model in self.product_rate:
-            if mean == 0:
-                mean = rate_model.rate
-            else:
-                mean = (mean + rate_model.rate)/2
-        self.rate = mean
+            ave.append(rate_model.rate)
+        self.rate = np.mean(ave)
         return self.rate
 
     @classmethod

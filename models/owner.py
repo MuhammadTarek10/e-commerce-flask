@@ -1,4 +1,5 @@
 from database import database
+import numpy as np
 
 class OwnerModel(database.Model):
     __tablename__ = 'owners'
@@ -36,13 +37,10 @@ class OwnerModel(database.Model):
         return values
 
     def get_rate(self):
-        mean = self.rate
+        ave = []
         for rate_model in self.owner_rate:
-            if mean == 0:
-                mean = rate_model.rate
-            else:
-                mean = (mean + rate_model.rate)/2
-        self.rate = mean
+            ave.append(rate_model.rate)
+        self.rate = np.mean(ave)
         return self.rate
 
     @classmethod

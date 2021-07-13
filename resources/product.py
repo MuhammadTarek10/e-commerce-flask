@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse, inputs
 from models.product import ProductModel
 from models.store import StoreModel
 
+# arguments inside post
 
 
 class Product(Resource):
@@ -40,11 +41,14 @@ class Product(Resource):
         if product:
             return product.json()
 
+        #find by genre
+        #find by store
+        #find by rate
+
         return {"message": "product not found"}
 
 
     def post(self, name):
-
         data = self.parser.parse_args()
         product = ProductModel.find_by_name(name)
         if product:

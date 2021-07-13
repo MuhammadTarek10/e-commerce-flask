@@ -25,7 +25,6 @@ class RateToOwner(Resource):
             help='fill that part'
     )
 
-    # issue in getting rate
     def get(self):
         names = []
         data = self.parser.parse_args()
