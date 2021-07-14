@@ -1,0 +1,55 @@
+[33m59af77b[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31mflask/master[m[33m)[m Merge branch 'master' of https://github.com/MuhammadTarek10/e-commerce-flask into HEAD
+[33ma4a0f05[m return to last commit
+[33m10f85db[m parser.add_argument inside requests
+[33m7f34943[m wanna add find by genre
+[33m64be089[m solved getting right rate for products and owners
+[33m4600d0c[m faster way to get average rate
+[33mab55034[m fine tuning, ready to get last modifications
+[33m2310c09[m added order
+[33mc125b99[m clean database
+[33m8c9abba[m space adjusted
+[33m608c458[m added rate_to_owner
+[33m667d2a2[m same user can't rate same product more than once, problem solved
+[33m016b97a[m calculate rate right, some modifaction in finding existence
+[33m6953afb[m added rate_to_product
+[33m595fca0[m Merge branch 'master' of https://github.com/MuhammadTarek10/e-commerce-flask
+[33med9485f[m added owner name, store name to the json method
+[33m6713c60[m Update database diagram
+[33m5325800[m required in description set to false and removing help message
+[33m18b7519[m solving some bugs
+[33mb8b9188[m added get_stores() to owner
+[33m3a60550[m Merge branch 'master' of https://github.com/MuhammadTarek10/e-commerce-flask
+[33m1fc47e8[m added some properties
+[33m440b8e9[m Update database diagram
+[33meb0dc48[m Update database diagram
+[33mfa08a3e[m Update database diagram
+[33m5aef3fa[m Update database diagram
+[33m08c8c01[m Update database diagram
+[33mdec8543[m Update database diagram
+[33m25b45a9[m Update database diagram
+[33m3df454d[m Update database diagram
+[33m6dd6e8e[m Update database diagram
+[33mafc8628[m Update database diagram
+[33m48f4391[m delete untitled
+[33m5eb0a8e[m Update database diagram
+[33m4f18a04[m Update database diagram
+[33me475f78[m Update database diagram
+[33m39f048c[m Update database diagram
+[33m927d3c8[m Update database diagram
+[33m65eb09b[m Update database diagram
+[33m1ad7e59[m Added database diagram
+[33m9aebacb[m database diagram added
+[33m9868109[m playing with store
+[33m615bc2b[m playing with store
+[33m9656660[m added owner
+[33me875f66[m adding readme
+[33mc0be67a[m added method to retrieve users
+[33mc632512[m added email to user
+[33m394bb58[m added stores
+[33m2915e94[m added delete and put to product
+[33m3166775[m fixed database not creating
+[33m2bb3b13[m added product model, get and post of resource
+[33ma60540f[m added user register
+[33ma20c37e[m putting blueprint for user, product and store
+[33m3899e3e[m setting product, store and user models and recources
+[33ma46008f[m initial commit

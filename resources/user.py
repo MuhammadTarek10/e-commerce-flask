@@ -4,35 +4,35 @@ from models.user import UserModel
 class UserRegister(Resource):
     parser = reqparse.RequestParser()
 
-    parser.add_argument('first_name',
-            type=str,
-            required=True,
-            help="fill that part"
-    )
-
-    parser.add_argument('last_name',
-            type=str,
-            required=True,
-            help="fill that part"
-    )
-
-    parser.add_argument('username',
-            type=str,
-            required=True,
-            help="fill that part"
-    )
-    parser.add_argument('password',
-            type=str,
-            required=True,
-            help="fill that part"
-    )
-    parser.add_argument('email',
-            type=str,
-            required=True,
-            help="fill that part"
-    )
-
     def post(self):
+        self.parser.add_argument('first_name',
+                type=str,
+                required=True,
+                help="fill that part"
+        )
+
+        self.parser.add_argument('last_name',
+                type=str,
+                required=True,
+                help="fill that part"
+        )
+
+        self.parser.add_argument('username',
+                type=str,
+                required=True,
+                help="fill that part"
+        )
+        self.parser.add_argument('password',
+                type=str,
+                required=True,
+                help="fill that part"
+        )
+        self.parser.add_argument('email',
+                type=str,
+                required=True,
+                help="fill that part"
+        )
+
         data = self.parser.parse_args()
 
         if UserModel.find_by_username(data['username']):

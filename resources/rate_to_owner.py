@@ -7,25 +7,13 @@ from models.owner import OwnerModel
 class RateToOwner(Resource):
     parser = reqparse.RequestParser()
 
-    parser.add_argument('user_id',
-            type=int,
-            required=True,
-            help='fill that part'
-    )
-
-    parser.add_argument('owner_id',
-            type=int,
-            required=True,
-            help='fill that part'
-    )
-
-    parser.add_argument('rate',
-            type=float,
-            required=True,
-            help='fill that part'
-    )
-
     def get(self):
+        self.parser.add_argument('rate',
+                type=float,
+                required=True,
+                help='fill that part'
+        )
+
         names = []
         data = self.parser.parse_args()
         owners = OwnerModel.filter_rate(data['rate'])
@@ -35,6 +23,24 @@ class RateToOwner(Resource):
         return {"owners": names}
 
     def post(self, owner):
+        self.parser.add_argument('user_id',
+                type=int,
+                required=True,
+                help='fill that part'
+        )
+
+        self.parser.add_argument('owner_id',
+                type=int,
+                required=True,
+                help='fill that part'
+        )
+
+        self.parser.add_argument('rate',
+                type=float,
+                required=True,
+                help='fill that part'
+        )
+
         data = self.parser.parse_args()
 
         if not UserModel.find_by_id(data['user_id']):

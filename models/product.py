@@ -34,8 +34,10 @@ class ProductModel(database.Model):
         ave = []
         for rate_model in self.product_rate:
             ave.append(rate_model.rate)
-        self.rate = np.mean(ave)
-        return self.rate
+        if len(ave) != 0:
+            self.rate = np.mean(ave)
+            return self.rate
+        return 0
 
     @classmethod
     def find_by_name(cls, name):
@@ -61,3 +63,11 @@ class ProductModel(database.Model):
             if rate <= product.get_rate():
                 desired_products.append(product)
         return desired_products
+
+    @classmethod
+    def find_by_genre(cls, genre):
+        return cls.query.filter_by(genre=genre).all()
+
+    @classmethod
+    def find_by_price(cls, price):
+        return cls.query.filter(cls.price>=price).all()
