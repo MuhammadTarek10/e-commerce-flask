@@ -5,12 +5,19 @@ from models.owner import OwnerModel
 class Store(Resource):
     parser = reqparse.RequestParser()
 
+    parser.add_argument('name',
+            type=str,
+            required=True,
+            help="fill that part"
+    )
+
+    parser.add_argument('owner_id',
+            type=int,
+            required=True,
+            help="fill that part"
+    )
+
     def get(self):
-        self.parser.add_argument('name',
-                type=str,
-                required=True,
-                help="fill that part"
-        )
         data = self.parser.parse_args()
         store = StoreModel.find_by_name(data['name'])
         if store:
@@ -19,18 +26,6 @@ class Store(Resource):
             return {"message": "store named {} not found".format(name)}
 
     def post(self):
-        self.parser.add_argument('name',
-                type=str,
-                required=True,
-                help="fill that part"
-        )
-
-        self.parser.add_argument('owner_id',
-                type=int,
-                required=True,
-                help="fill that part"
-        )
-
         data = self.parser.parse_args()
 
         store = StoreModel.find_by_name(data['name'])
@@ -49,14 +44,7 @@ class Store(Resource):
         return store.json()
 
     def delete(self):
-        self.parser.add_argument('name',
-                type=str,
-                required=True,
-                help="fill that part"
-        )
-
-        data = self.parser.parse_args()
-        store = StoreModel.find_by_name(data['name'])
+        store = StoreModel.find_by_name(name)
         if store:
             try:
                 store.delete_from_database()
