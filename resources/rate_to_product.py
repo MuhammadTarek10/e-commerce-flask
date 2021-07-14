@@ -5,7 +5,13 @@ from models.product import ProductModel
 
 class RateToPoduct(Resource):
     parser = reqparse.RequestParser()
+<<<<<<< HEAD
     
+=======
+
+
+
+>>>>>>> 59af77bd2a21dad6b0033bae1cb68a05542260ee
     def get(self):
         self.parser.add_argument('rate',
                 type=float,
