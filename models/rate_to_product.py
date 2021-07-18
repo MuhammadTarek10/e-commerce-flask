@@ -11,12 +11,17 @@ class RateToProductModel(database.Model):
     user = database.relationship('UserModel', viewonly=True)
     product = database.relationship('ProductModel', viewonly=True)
 
+    def __init__(self, rate, user_id, product_id):
+        self.rate = rate
+        self.user_id = user_id
+        self.product_id = product_id
+
     def save_to_database(self):
         database.session.add(self)
         database.session.commit()
 
     @classmethod
-    def already_rated(cls, user_id, product_id, rate):
+    def already_rated(cls, rate, user_id, product_id):
         user = cls.get_user_id_for_rate(user_id)
         if user:
             for rate_model in user:

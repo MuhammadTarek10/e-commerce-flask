@@ -40,19 +40,22 @@ class Product(Resource):
     )
 
 
-    def get(self):
-        pass
+    def get(self, name):
+        product = ProductModel.find_by_name(name)
+        if product:
+            return product.json()
+        return {"message": "product {} not found".format(name)}
 
 
-    def post(self):
+    def post(self, name):
         data = self.parser.parse_args()
-        product = ProductModel.find_by_name(data['name'])
+        product = ProductModel.find_by_name(name)
         if product:
             if product.store_id == data['store_id']:
                 return {"message": "product already exists"}
         if not StoreModel.find_by_id(data['store_id']):
             return {"message": "no store with that id"}
-        product = ProductModel(**data)
+        product = ProductModel(name, **data)
 
         try:
             product.save_to_database()
@@ -61,17 +64,17 @@ class Product(Resource):
 
         return product.json(), 201
 
-    def delete(self):
+    def delete(self, name):
         data = self.parser.parse_args()
-        product = ProductModel.find_by_name(data['name'])
+        product = ProductModel.find_by_name(name)
         if product:
             try:
                 product.delete_from_database()
-                return {"message": "{} deleted".format(data['name'])}
+                return {"message": "{} deleted".format(name)}
             except:
                 return {"message": "error while adding to database"}, 500
         else:
-            return {"message": "no product named {}".format(data['name'])}
+            return {"message": "no product named {}".format(name)}
 
     def put(self):
         pass

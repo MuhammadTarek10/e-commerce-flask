@@ -5,41 +5,27 @@ from models.product import ProductModel
 
 class RateToPoduct(Resource):
     parser = reqparse.RequestParser()
+    parser.add_argument('user_id',
+            type=int,
+            required=True,
+            help='fill that part'
+    )
 
-    def get(self):
-        self.parser.add_argument('rate',
-                type=float,
-                required=True,
-                help='fill that part'
-        )
+    parser.add_argument('product_id',
+            type=int,
+            required=True,
+            help='fill that part'
+    )
 
+    def get(self, rate):
         names = []
-        data = self.parser.parse_args()
-        products = ProductModel.filter_rate(data['rate'])
+        products = ProductModel.filter_rate(rate)
         for product in products:
             name = ProductModel.find_by_id(product.id).name
             names.append(name)
         return {"products": names}
 
-    def post(self):
-        self.parser.add_argument('user_id',
-                type=int,
-                required=True,
-                help='fill that part'
-        )
-
-        self.parser.add_argument('product_id',
-                type=int,
-                required=True,
-                help='fill that part'
-        )
-
-        self.parser.add_argument('rate',
-                type=float,
-                required=True,
-                help='fill that part'
-        )
-
+    def post(self, rate):
         data = self.parser.parse_args()
 
         if not UserModel.find_by_id(data['user_id']):
@@ -48,10 +34,10 @@ class RateToPoduct(Resource):
         if not ProductModel.find_by_id(data['product_id']):
             return {"message": "no product with that id"}
 
-        if RateToProductModel.already_rated(**data):
+        if RateToProductModel.already_rated(rate, **data):
                 return {"message": "you already rated this product"}
 
-        rate = RateToProductModel(**data)
+        rate = RateToProductModel(rate, **data)
         try:
             rate.save_to_database()
         except:
