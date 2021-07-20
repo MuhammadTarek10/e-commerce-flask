@@ -10,7 +10,7 @@ from resources.rate_to_product import RateToPoduct
 from resources.rate_to_owner import RateToOwner
 from resources.order import Order
 
-
+ 
 # just setting database and app
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db/"
