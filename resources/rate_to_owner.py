@@ -7,17 +7,9 @@ from models.owner import OwnerModel
 class RateToOwner(Resource):
     parser = reqparse.RequestParser()
 
-    parser.add_argument('user_id',
-            type=int,
-            required=True,
-            help='fill that part'
-    )
+    parser.add_argument("user_id", type=int, required=True, help="fill that part")
 
-    parser.add_argument('owner_id',
-            type=int,
-            required=True,
-            help='fill that part'
-    )
+    parser.add_argument("owner_id", type=int, required=True, help="fill that part")
 
     def get(self, rate):
         names = []
@@ -30,14 +22,14 @@ class RateToOwner(Resource):
     def post(self, rate):
         data = self.parser.parse_args()
 
-        if not UserModel.find_by_id(data['user_id']):
+        if not UserModel.find_by_id(data["user_id"]):
             return {"message": "no user with that id"}
 
-        if not OwnerModel.find_by_id(data['owner_id']):
+        if not OwnerModel.find_by_id(data["owner_id"]):
             return {"message": "no owner with that id"}
 
         if RateToOwnerModel.already_rated(rate, **data):
-                return {"message": "you already rated this owner"}
+            return {"message": "you already rated this owner"}
 
         rate = RateToOwnerModel(rate, **data)
         try:

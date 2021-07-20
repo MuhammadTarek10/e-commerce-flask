@@ -11,12 +11,11 @@ from resources.rate_to_owner import RateToOwner
 from resources.order import Order
 
 
-
 # just setting database and app
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db/'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = 'Tarek'
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db/"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.secret_key = "Tarek"
 api = Api(app)
 
 jwt = JWT(app, authentication, identity)
@@ -26,8 +25,6 @@ jwt = JWT(app, authentication, identity)
 @app.before_first_request
 def create_table():
     database.create_all()
-
-
 
 
 api.add_resource(UserRegister, "/user/register")
@@ -45,8 +42,8 @@ api.add_resource(RateToOwner, "/rate_owner/<float:rate>")
 api.add_resource(Order, "/order")
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     from database import database
+
     database.init_app(app)
     app.run(port=5000, debug=True)

@@ -1,7 +1,8 @@
 from database import database
 
+
 class UserModel(database.Model):
-    __tablename__ = 'users'
+    __tablename__ = "users"
 
     id = database.Column(database.Integer, primary_key=True)
     first_name = database.Column(database.String(80))
@@ -10,9 +11,9 @@ class UserModel(database.Model):
     password = database.Column(database.String(80))
     email = database.Column(database.String(120))
 
-    rate_to_product = database.relationship('RateToProductModel')
-    rate_to_owner = database.relationship('RateToOwnerModel')
-    orders = database.relationship('OrderModel')
+    rate_to_product = database.relationship("RateToProductModel")
+    rate_to_owner = database.relationship("RateToOwnerModel")
+    orders = database.relationship("OrderModel")
 
     def __init__(self, first_name, last_name, username, password, email):
         self.first_name = first_name

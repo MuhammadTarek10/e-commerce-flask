@@ -4,7 +4,7 @@ from typing import Dict, List
 
 
 class ProductModel(database.Model):
-    __tablename__ = 'products'
+    __tablename__ = "products"
 
     rate = 0
 
@@ -15,12 +15,20 @@ class ProductModel(database.Model):
     price = database.Column(database.Float(precision=2))
     available = database.Column(database.Boolean)
 
-    store_id = database.Column(database.Integer, database.ForeignKey('stores.id'))
-    store = database.relationship('StoreModel', viewonly=True)
-    product_rate = database.relationship('RateToProductModel')
-    order = database.relationship('OrderModel')
+    store_id = database.Column(database.Integer, database.ForeignKey("stores.id"))
+    store = database.relationship("StoreModel", viewonly=True)
+    product_rate = database.relationship("RateToProductModel")
+    order = database.relationship("OrderModel")
 
-    def __init__(self, name: str, description: str, genre: str, price: float, available: bool, store_id: int):
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        genre: str,
+        price: float,
+        available: bool,
+        store_id: int,
+    ):
         self.name = name
         self.description = description
         self.genre = genre
@@ -30,12 +38,12 @@ class ProductModel(database.Model):
 
     def json(self) -> Dict:
         return {
-            "name": self.name, 
-            "price": self.price, 
-            "store_name": self.store.name, 
-            "genre": self.genre, 
-            "available" : self.available, 
-            "rate": self.get_rate()
+            "name": self.name,
+            "price": self.price,
+            "store_name": self.store.name,
+            "genre": self.genre,
+            "available": self.available,
+            "rate": self.get_rate(),
         }
 
     def get_rate(self):
@@ -78,4 +86,4 @@ class ProductModel(database.Model):
 
     @classmethod
     def find_by_price(cls, price: float) -> List:
-        return cls.query.filter(cls.price>=price).all()
+        return cls.query.filter(cls.price >= price).all()

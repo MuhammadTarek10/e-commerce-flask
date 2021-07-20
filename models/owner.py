@@ -1,8 +1,9 @@
 from database import database
 import numpy as np
 
+
 class OwnerModel(database.Model):
-    __tablename__ = 'owners'
+    __tablename__ = "owners"
 
     rate = 0
 
@@ -13,8 +14,8 @@ class OwnerModel(database.Model):
     password = database.Column(database.String(30))
     email = database.Column(database.String(120))
 
-    stores = database.relationship('StoreModel')
-    owner_rate = database.relationship('RateToOwnerModel')
+    stores = database.relationship("StoreModel")
+    owner_rate = database.relationship("RateToOwnerModel")
 
     def __init__(self, first_name, last_name, username, password, email):
         self.first_name = first_name
@@ -32,7 +33,7 @@ class OwnerModel(database.Model):
             "name": self.name,
             "stores": self.get_stores(),
             "email": self.email,
-            "rate": self.get_rate()
+            "rate": self.get_rate(),
         }
 
     def get_stores(self):

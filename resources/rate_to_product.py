@@ -3,19 +3,12 @@ from models.rate_to_product import RateToProductModel
 from models.user import UserModel
 from models.product import ProductModel
 
+
 class RateToPoduct(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument('user_id',
-            type=int,
-            required=True,
-            help='fill that part'
-    )
+    parser.add_argument("user_id", type=int, required=True, help="fill that part")
 
-    parser.add_argument('product_id',
-            type=int,
-            required=True,
-            help='fill that part'
-    )
+    parser.add_argument("product_id", type=int, required=True, help="fill that part")
 
     def get(self, rate):
         names = []
@@ -28,14 +21,14 @@ class RateToPoduct(Resource):
     def post(self, rate):
         data = self.parser.parse_args()
 
-        if not UserModel.find_by_id(data['user_id']):
+        if not UserModel.find_by_id(data["user_id"]):
             return {"message": "no user with that id"}
 
-        if not ProductModel.find_by_id(data['product_id']):
+        if not ProductModel.find_by_id(data["product_id"]):
             return {"message": "no product with that id"}
 
         if RateToProductModel.already_rated(rate, **data):
-                return {"message": "you already rated this product"}
+            return {"message": "you already rated this product"}
 
         rate = RateToProductModel(rate, **data)
         try:

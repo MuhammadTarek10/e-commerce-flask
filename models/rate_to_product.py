@@ -1,15 +1,16 @@
 from database import database
 
+
 class RateToProductModel(database.Model):
-    __tablename__ = 'RateToProduct'
+    __tablename__ = "RateToProduct"
 
     id = database.Column(database.Integer, primary_key=True)
-    user_id = database.Column(database.Integer, database.ForeignKey('users.id'))
-    product_id = database.Column(database.Integer, database.ForeignKey('products.id'))
+    user_id = database.Column(database.Integer, database.ForeignKey("users.id"))
+    product_id = database.Column(database.Integer, database.ForeignKey("products.id"))
     rate = database.Column(database.Float(precision=1))
 
-    user = database.relationship('UserModel', viewonly=True)
-    product = database.relationship('ProductModel', viewonly=True)
+    user = database.relationship("UserModel", viewonly=True)
+    product = database.relationship("ProductModel", viewonly=True)
 
     def __init__(self, rate, user_id, product_id):
         self.rate = rate
