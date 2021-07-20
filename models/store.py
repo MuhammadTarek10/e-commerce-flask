@@ -5,7 +5,7 @@ class StoreModel(database.Model):
     __tablename__ = 'stores'
 
     id = database.Column(database.Integer, primary_key=True)
-    name = database.Column(database.String(80))
+    name = database.Column(database.String(80), unique=True)
     owner_id = database.Column(database.Integer, database.ForeignKey('owners.id'))
 
     products = database.relationship('ProductModel', lazy='dynamic')

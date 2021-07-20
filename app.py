@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
 from security import authentication, identity
-from resources.product import Product, ProductList
+from resources.product import Product, ProductList, ProductGenre, ProductPrice
 from resources.store import Store, StoreList
 from resources.user import UserRegister, UserList
 from resources.owner import OwnerRegister, OwnerList
@@ -36,6 +36,8 @@ api.add_resource(OwnerRegister, "/owner/register")
 api.add_resource(OwnerList, "/owners")
 api.add_resource(Product, "/product/<string:name>")
 api.add_resource(ProductList, "/products")
+api.add_resource(ProductGenre, "/genre/<string:genre>")
+api.add_resource(ProductPrice, "/price/<float:price>")
 api.add_resource(Store, "/store/<string:name>")
 api.add_resource(StoreList, "/stores")
 api.add_resource(RateToPoduct, "/rate_product/<float:rate>")

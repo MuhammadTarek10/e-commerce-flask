@@ -1,5 +1,6 @@
 from database import database
 import numpy as np
+from typing import Dict, List
 
 
 class ProductModel(database.Model):
@@ -19,7 +20,7 @@ class ProductModel(database.Model):
     product_rate = database.relationship('RateToProductModel')
     order = database.relationship('OrderModel')
 
-    def __init__(self, name, description, genre, price, available, store_id):
+    def __init__(self, name: str, description: str, genre: str, price: float, available: bool, store_id: int):
         self.name = name
         self.description = description
         self.genre = genre
@@ -27,7 +28,7 @@ class ProductModel(database.Model):
         self.available = available
         self.store_id = store_id
 
-    def json(self):
+    def json(self) -> Dict:
         return {
             "name": self.name, 
             "price": self.price, 
@@ -47,23 +48,23 @@ class ProductModel(database.Model):
         return 0
 
     @classmethod
-    def find_by_name(cls, name):
+    def find_by_name(cls, name: str):
         return cls.query.filter_by(name=name).first()
 
     @classmethod
-    def find_by_id(cls, id):
+    def find_by_id(cls, id: int):
         return cls.query.filter_by(id=id).first()
 
-    def save_to_database(self):
+    def save_to_database(self) -> None:
         database.session.add(self)
         database.session.commit()
 
-    def delete_from_database(self):
+    def delete_from_database(self) -> None:
         database.session.delete(self)
         database.session.commit()
 
     @classmethod
-    def filter_rate(cls, rate):
+    def filter_rate(cls, rate: float) -> List:
         desired_products = []
         products = cls.query.all()
         for product in products:
@@ -72,9 +73,9 @@ class ProductModel(database.Model):
         return desired_products
 
     @classmethod
-    def find_by_genre(cls, genre):
+    def find_by_genre(cls, genre: str) -> List:
         return cls.query.filter_by(genre=genre).all()
 
     @classmethod
-    def find_by_price(cls, price):
+    def find_by_price(cls, price: float) -> List:
         return cls.query.filter(cls.price>=price).all()

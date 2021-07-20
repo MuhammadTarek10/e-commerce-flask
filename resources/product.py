@@ -80,6 +80,19 @@ class Product(Resource):
         pass
 
 
+class ProductPrice(Resource):
+    def get(self, price):
+        print(ProductModel.find_by_price(price))
+        return {"products": [product.json() for product in ProductModel.find_by_price(price)]}
+
+
+class ProductGenre(Resource):
+    def get(self, genre):
+        return {"products": [product.json() for product in ProductModel.find_by_genre(genre)]}
+
+
 class ProductList(Resource):
     def get(self):
         return {"products": [product.json() for product in ProductModel.query.all()]}
+
+
