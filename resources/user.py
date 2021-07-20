@@ -2,16 +2,15 @@ from flask_restful import Resource, reqparse
 from models.user import UserModel
 
 
+parser = reqparse.RequestParser()
+
+parser.add_argument("first_name", type=str, required=True, help="fill that part")
+parser.add_argument("last_name", type=str, required=True, help="fill that part")
+parser.add_argument("username", type=str, required=True, help="fill that part")
+parser.add_argument("password", type=str, required=True, help="fill that part")
+parser.add_argument("email", type=str, required=True, help="fill that part")
+
 class UserRegister(Resource):
-    parser = reqparse.RequestParser()
-
-    parser.add_argument("first_name", type=str, required=True, help="fill that part")
-
-    parser.add_argument("last_name", type=str, required=True, help="fill that part")
-
-    parser.add_argument("username", type=str, required=True, help="fill that part")
-    parser.add_argument("password", type=str, required=True, help="fill that part")
-    parser.add_argument("email", type=str, required=True, help="fill that part")
 
     def post(self):
         data = self.parser.parse_args()
@@ -26,6 +25,8 @@ class UserRegister(Resource):
             return {"message": "error in adding to database"}
 
         return {"message": "user created successfully!"}, 201
+
+
 
 
 class UserList(Resource):
