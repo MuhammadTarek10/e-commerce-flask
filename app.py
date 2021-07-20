@@ -4,7 +4,7 @@ from flask_jwt import JWT
 from security import authentication, identity
 from resources.product import Product, ProductList, ProductGenre, ProductPrice
 from resources.store import Store, StoreList
-from resources.user import UserRegister, UserList
+from resources.user import UserRegister, UserList, User
 from resources.owner import OwnerRegister, OwnerList
 from resources.rate_to_product import RateToPoduct
 from resources.rate_to_owner import RateToOwner
@@ -40,6 +40,8 @@ api.add_resource(StoreList, "/stores")
 api.add_resource(RateToPoduct, "/rate_product/<float:rate>")
 api.add_resource(RateToOwner, "/rate_owner/<float:rate>")
 api.add_resource(Order, "/order")
+api.add_resource(User, "/user/<int:user_id>")
+
 
 
 if __name__ == "__main__":
