@@ -8,7 +8,7 @@ class ProductModel(database.Model):
     rate = 0
 
     id = database.Column(database.Integer, primary_key=True)
-    name = database.Column(database.String(80))
+    name = database.Column(database.String(80), unique=True)
     description = database.Column(database.String(300))
     genre = database.Column(database.String(40))
     price = database.Column(database.Float(precision=2))
@@ -28,7 +28,14 @@ class ProductModel(database.Model):
         self.store_id = store_id
 
     def json(self):
-        return {"name": self.name, "price": self.price, "store_name": self.store.name, "genre": self.genre, "available" : self.available, "rate": self.get_rate()}
+        return {
+            "name": self.name, 
+            "price": self.price, 
+            "store_name": self.store.name, 
+            "genre": self.genre, 
+            "available" : self.available, 
+            "rate": self.get_rate()
+        }
 
     def get_rate(self):
         ave = []

@@ -28,7 +28,12 @@ class OwnerModel(database.Model):
         database.session.commit()
 
     def json(self):
-        return {"name": self.first_name, "stores": self.get_stores(), "email": self.email, "rate": self.get_rate()}
+        return {
+            "name": self.name,
+            "stores": self.get_stores(),
+            "email": self.email,
+            "rate": self.get_rate()
+        }
 
     def get_stores(self):
         values = []
