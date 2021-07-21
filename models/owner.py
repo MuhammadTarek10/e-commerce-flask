@@ -14,8 +14,8 @@ class OwnerModel(database.Model):
     password = database.Column(database.String(30))
     email = database.Column(database.String(120))
 
-    # stores = database.relationship("StoreModel")
-    # owner_rate = database.relationship("RateToOwnerModel")
+    stores = database.relationship("StoreModel")
+    owner_rate = database.relationship("RateToOwnerModel")
 
     def __init__(self, first_name, last_name, username, password, email):
         self.first_name = first_name
@@ -27,6 +27,14 @@ class OwnerModel(database.Model):
     def save_to_database(self):
         database.session.add(self)
         database.session.commit()
+
+    def json(self):
+        return {
+            "name": self.name,
+            "stores": self.get_stores(),
+            "email": self.email,
+            "rate": self.get_rate(),
+        }
 
     def get_stores(self):
         values = []
@@ -57,7 +65,3 @@ class OwnerModel(database.Model):
             if rate <= owner.get_rate():
                 desired_owners.append(owner)
         return desired_owners
-
-    @classmethod
-    def if_email_exists(cls, email):
-        return cls.query.filter_by(email=email).first()
