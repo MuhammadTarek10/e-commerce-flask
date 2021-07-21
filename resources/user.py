@@ -36,6 +36,17 @@ class User(Resource):
         return user.json(), 200
 
 
+class UserLogin(Resource):
+    @classmethod
+    def post(cls):
+        data = self.parser.parse_args()
+
+        user = UserModel.find_by_username(data['username'])
+        if user.password = data['password']:
+            
+
+
+
 class UserList(Resource):
     def get(self):
         return {"Users": [user.json() for user in UserModel.query.all()]}

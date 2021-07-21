@@ -10,6 +10,7 @@ class UserModel(database.Model):
     username = database.Column(database.String(80))
     password = database.Column(database.String(80))
     email = database.Column(database.String(120))
+    activated = database.Column(database.Boolean, default=False)
 
     rate_to_product = database.relationship("RateToProductModel")
     rate_to_owner = database.relationship("RateToOwnerModel")
