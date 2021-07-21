@@ -1,5 +1,9 @@
 from flask_restful import Resource, reqparse
 from models.user import UserModel
+from flask_jwt_extended import (
+        create_access_token,
+        create_refresh_token,
+    )
 
 class UserRegister(Resource):
     parser = reqparse.RequestParser()
@@ -34,6 +38,20 @@ class User(Resource):
         if not user:
             return {"message": "user not found"}, 404
         return user.json(), 200
+
+class UserLogin(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument("username", type=str, required=True, help="fill that part")
+    parser.add_argument("password", type=str, required=True, help="fill that part")
+
+    def post(self):
+        data = self.parser.parse_args()
+        user = UserModel.find_by_username(data['username'])
+        if user.password == data['password']:
+            access_token = create_access_token(identity=user.id, fresh=True)
+            refresh_token = create_refresh_token(user.id)
+            return {"access_token": access_token, "refresh_token": refresh_token}
+        return {"message": "wrong username or password"}, 401
 
 
 class UserList(Resource):
