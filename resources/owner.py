@@ -1,21 +1,15 @@
-from flask_restful import Resource, reqparse
+from flask_restful import Resource
 from models.owner import OwnerModel
+from flask import request
+from schemas.owner import OwnerSchema
+
+owner_schema = OwnerSchema()
 
 
 class OwnerRegister(Resource):
-    parser = reqparse.RequestParser()
-
-    parser.add_argument("first_name", type=str, required=True, help="fill that part")
-
-    parser.add_argument("last_name", type=str, required=True, help="fill that part")
-
-    parser.add_argument("username", type=str, required=True, help="fill that part")
-    parser.add_argument("password", type=str, required=True, help="fill that part")
-    parser.add_argument("email", type=str, required=True, help="fill that part")
-
-    def post(self):
-
-        data = self.parser.parse_args()
+    @classmethod
+    def post(cls):
+        data = owner_schema.load(request.get_json())
 
         if OwnerModel.find_by_username(data["username"]):
             return {"message": "owner already exists"}
@@ -28,4 +22,4 @@ class OwnerRegister(Resource):
 
 class OwnerList(Resource):
     def get(self):
-        return {"Owners": [owner.json() for owner in OwnerModel.query.all()]}
+        return {"Owners": [owner_schema.dump(owner) for owner in OwnerModel.query.all()]}

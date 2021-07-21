@@ -5,15 +5,11 @@ class StoreModel(database.Model):
     __tablename__ = "stores"
 
     id = database.Column(database.Integer, primary_key=True)
-    name = database.Column(database.String(80), unique=True)
-    owner_id = database.Column(database.Integer, database.ForeignKey("owners.id"))
+    name = database.Column(database.String(80), unique=True, nullable=False)
+    owner_id = database.Column(database.Integer, database.ForeignKey("owners.id"), nullable=False)
 
     products = database.relationship("ProductModel", lazy="dynamic")
-    owner = database.relationship("OwnerModel", viewonly=True)
-
-    def __init__(self, name, owner_id):
-        self.name = name
-        self.owner_id = owner_id
+    owner = database.relationship("OwnerModel")
 
     def json(self):
         return {

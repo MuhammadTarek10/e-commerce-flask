@@ -1,22 +1,16 @@
-from flask_restful import Resource, reqparse, inputs
+from flask_restful import Resource, inputs
+from flask import request
 from models.order import OrderModel
 from models.product import ProductModel
 from models.user import UserModel
+from schemas.order import OrderSchema
 
+order_schema = OrderSchema()
 
 class Order(Resource):
-    parser = reqparse.RequestParser()
-
-    parser.add_argument("user_id", type=int, required=True, help="fill that part")
-
-    parser.add_argument("product_id", type=int, required=True, help="fill that part")
-
-    parser.add_argument("quantity", type=int, required=True, help="fill that part")
-
-    parser.add_argument("order_date", type=str, required=True, help="fill that part")
-
-    def post(self):
-        data = self.parser.parse_args()
+    @classmethod
+    def post(cls):
+        data = order_schema.load(request.get_json())
 
         if not UserModel.find_by_id(data["user_id"]):
             return {"message": "no user with that id"}
@@ -26,11 +20,12 @@ class Order(Resource):
             return {"message": "no product with that id"}
 
         total_price = data["quantity"] * product.price
+        data['total_price'] = total_price
 
-        order = OrderModel(total_price, **data)
+        order = OrderModel(**data)
         try:
             order.save_to_database()
         except:
             return {"message": "error in adding to database"}
 
-        return order.json(), 201
+        return order_schema.dump(order), 201

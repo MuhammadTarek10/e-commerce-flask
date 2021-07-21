@@ -1,17 +1,16 @@
-from flask_restful import Resource, reqparse
+from flask_restful import Resource
+from flask import request
 from models.rate_to_owner import RateToOwnerModel
 from models.user import UserModel
 from models.owner import OwnerModel
+from schemas.rate_to_owner import RateToOwnerSchema
+
+rate_to_owner_schema = RateToOwnerSchema()
 
 
 class RateToOwner(Resource):
-    parser = reqparse.RequestParser()
-
-    parser.add_argument("user_id", type=int, required=True, help="fill that part")
-
-    parser.add_argument("owner_id", type=int, required=True, help="fill that part")
-
-    def get(self, rate):
+    @classmethod
+    def get(cls, rate):
         names = []
         owners = OwnerModel.filter_rate(rate)
         for owner in owners:
@@ -19,8 +18,11 @@ class RateToOwner(Resource):
             names.append(name)
         return {"owners": names}
 
-    def post(self, rate):
-        data = self.parser.parse_args()
+
+    @classmethod
+    def post(cls, rate):
+        data = rate_to_owner_schema.load(request.get_json())
+        data['rate'] = rate
 
         if not UserModel.find_by_id(data["user_id"]):
             return {"message": "no user with that id"}
@@ -31,7 +33,7 @@ class RateToOwner(Resource):
         if RateToOwnerModel.already_rated(rate, **data):
             return {"message": "you already rated this owner"}
 
-        rate = RateToOwnerModel(rate, **data)
+        rate = RateToOwnerModel(**data)
         try:
             rate.save_to_database()
         except:

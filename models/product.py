@@ -9,33 +9,17 @@ class ProductModel(database.Model):
     rate = 0
 
     id = database.Column(database.Integer, primary_key=True)
-    name = database.Column(database.String(80), unique=True)
+    name = database.Column(database.String(80), unique=True, nullable=False)
     description = database.Column(database.String(300))
-    genre = database.Column(database.String(40))
-    price = database.Column(database.Float(precision=2))
-    available = database.Column(database.Boolean)
+    genre = database.Column(database.String(40), nullable=False)
+    price = database.Column(database.Float(precision=2), nullable=False)
+    available = database.Column(database.Boolean, nullable=False)
 
     store_id = database.Column(database.Integer, database.ForeignKey("stores.id"))
     store = database.relationship("StoreModel", viewonly=True)
     product_rate = database.relationship("RateToProductModel")
     order = database.relationship("OrderModel")
-
-    def __init__(
-        self,
-        name: str,
-        description: str,
-        genre: str,
-        price: float,
-        available: bool,
-        store_id: int,
-    ):
-        self.name = name
-        self.description = description
-        self.genre = genre
-        self.price = price
-        self.available = available
-        self.store_id = store_id
-
+    
     def json(self) -> Dict:
         return {
             "name": self.name,

@@ -5,17 +5,12 @@ class RateToOwnerModel(database.Model):
     __tablename__ = "RateToOwner"
 
     id = database.Column(database.Integer, primary_key=True)
-    user_id = database.Column(database.Integer, database.ForeignKey("users.id"))
-    owner_id = database.Column(database.Integer, database.ForeignKey("owners.id"))
+    user_id = database.Column(database.Integer, database.ForeignKey("users.id"), nullable=False)
+    owner_id = database.Column(database.Integer, database.ForeignKey("owners.id"), nullable=False)
     rate = database.Column(database.Float(precision=1))
 
     user = database.relationship("UserModel", viewonly=True)
     owner = database.relationship("OwnerModel", viewonly=True)
-
-    def __init__(self, rate, user_id, owner_id):
-        self.rate = rate
-        self.user_id = user_id
-        self.owner_id = owner_id
 
     def save_to_database(self):
         database.session.add(self)

@@ -8,21 +8,14 @@ class OwnerModel(database.Model):
     rate = 0
 
     id = database.Column(database.Integer, primary_key=True)
-    first_name = database.Column(database.String(30))
-    last_name = database.Column(database.String(30))
-    username = database.Column(database.String(30))
-    password = database.Column(database.String(30))
-    email = database.Column(database.String(120))
+    first_name = database.Column(database.String(30), nullable=False)
+    last_name = database.Column(database.String(30), nullable=False)
+    username = database.Column(database.String(30), nullable=False)
+    password = database.Column(database.String(30), nullable=False)
+    email = database.Column(database.String(120), nullable=False)
 
     stores = database.relationship("StoreModel")
     owner_rate = database.relationship("RateToOwnerModel")
-
-    def __init__(self, first_name, last_name, username, password, email):
-        self.first_name = first_name
-        self.last_name = last_name
-        self.username = username
-        self.password = password
-        self.email = email
 
     def save_to_database(self):
         database.session.add(self)

@@ -1,6 +1,7 @@
 flask
 flask-restful
 flask-restplus
+flask-jwt-extended
 flask-jwt
 flask-sqlalchemy
 numpy

@@ -1,10 +1,9 @@
 from flask import Flask, jsonify
 from flask_restful import Api
-from flask_jwt import JWT
-from security import authentication, identity
+from flask_jwt_extended import JWTManager
 from resources.product import Product, ProductList, ProductGenre, ProductPrice
 from resources.store import Store, StoreList
-from resources.user import UserRegister, UserList, User
+from resources.user import UserRegister, UserList, User, UserLogin
 from resources.owner import OwnerRegister, OwnerList
 from resources.rate_to_product import RateToPoduct
 from resources.rate_to_owner import RateToOwner
@@ -15,10 +14,16 @@ from ma import ma
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db/"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["PROPAGATE_EXCEPTIONS"] = True
+app.config["JWT_BLACKLIST_ENABLED"] = True  # enable blacklist feature
+app.config["JWT_BLACKLIST_TOKEN_CHECKS"] = [
+    "access",
+    "refresh",
+]  # allow blacklisting for access and refresh tokens
 app.secret_key = "Tarek"
 api = Api(app)
 
-jwt = JWT(app, authentication, identity)
+jwt = JWTManager(app)
 
 
 # creating the tables
@@ -28,6 +33,7 @@ def create_table():
 
 
 api.add_resource(UserRegister, "/user/register")
+api.add_resource(UserLogin, "/login")
 api.add_resource(UserList, "/users")
 api.add_resource(OwnerRegister, "/owner/register")
 api.add_resource(OwnerList, "/owners")
@@ -48,5 +54,5 @@ if __name__ == "__main__":
     from database import database
 
     database.init_app(app)
-    # ma.init_app(app)
+    ma.init_app(app)
     app.run(port=5000, debug=True)

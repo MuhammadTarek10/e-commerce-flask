@@ -1,24 +1,24 @@
-from flask_restful import Resource, reqparse
+from flask_restful import Resource
+from flask import request
 from models.store import StoreModel
 from models.owner import OwnerModel
+from schemas.store import StoreSchema
+
+store_schema = StoreSchema()
 
 
 class Store(Resource):
-    parser = reqparse.RequestParser()
-
-    parser.add_argument("name", type=str, required=True, help="fill that part")
-
-    parser.add_argument("owner_id", type=int, required=True, help="fill that part")
-
-    def get(self, name):
+    @classmethod
+    def get(cls, name):
         store = StoreModel.find_by_name(name)
         if store:
-            return store.json()
+            return store_schema.dump(store)
         else:
             return {"message": "store named {} not found".format(name)}
 
-    def post(self, name):
-        data = self.parser.parse_args()
+    @classmethod
+    def post(cls, name):
+        data = store_schema.load(request.get_json())
 
         store = StoreModel.find_by_name(name)
         if store:
@@ -28,12 +28,14 @@ class Store(Resource):
         if not OwnerModel.find_by_id(data["owner_id"]):
             return {"message": "no owner with that id"}
 
-        store = StoreModel(name, **data)
+        data['name'] = name
+
+        store = StoreModel(**data)
         try:
             store.save_to_database()
         except:
             return {"message": "error in saving to database"}, 500
-        return store.json()
+        return store_schema.dump(store)
 
     def delete(self, name):
         store = StoreModel.find_by_name(name)
@@ -48,4 +50,4 @@ class Store(Resource):
 
 class StoreList(Resource):
     def get(self):
-        return {"Stores": [store.json() for store in StoreModel.query.all()]}
+        return {"Stores": [store_schema.dump(store) for store in StoreModel.query.all()]}

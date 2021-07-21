@@ -1,19 +1,18 @@
-from flask_restful import Resource, reqparse
+from flask_restful import Resource
+from flask import request
 from models.user import UserModel
+from schemas.user import UserSchema
+from flask_jwt_extended import (
+        create_access_token,
+        create_refresh_token
+    )
+
+user_schema = UserSchema()
 
 class UserRegister(Resource):
-    parser = reqparse.RequestParser()
 
-    parser.add_argument("first_name", type=str, required=True, help="fill that part")
-
-    parser.add_argument("last_name", type=str, required=True, help="fill that part")
-
-    parser.add_argument("username", type=str, required=True, help="fill that part")
-    parser.add_argument("password", type=str, required=True, help="fill that part")
-    parser.add_argument("email", type=str, required=True, help="fill that part")
-
-    def post(self):
-        data = self.parser.parse_args()
+    def post(cls):
+        data = user_schema.load(request.json())
 
         if UserModel.find_by_username(data["username"]):
             return {"message": "user already exists"}
@@ -37,16 +36,23 @@ class User(Resource):
 
 
 class UserLogin(Resource):
-    @classmethod
-    def post(cls):
+    parser = reqparse.RequestParser()
+    parser.add_argument("username", type=str, required=True, help="fill that part")
+    parser.add_argument("password", type=str, required=True, help="fill that part")    
+    def post(self):
         data = self.parser.parse_args()
 
         user = UserModel.find_by_username(data['username'])
-        if user.password = data['password']:
-            
+        if not user:
+            return {"message": "no username found"}
 
+        if user.password == data['password']:
+            access_token = create_access_token(identity=user.id, fresh=True)
+            refresh_token = create_refresh_token(user.id)
+            return {"access_token": access_token, "refresh_token": refresh_token}, 200
+        return {"message": "wrong inputs"}, 401
 
 
 class UserList(Resource):
     def get(self):
-        return {"Users": [user.json() for user in UserModel.query.all()]}
+        return {"Users": [user_schema.dump(user) for user in UserModel.query.all()]}
