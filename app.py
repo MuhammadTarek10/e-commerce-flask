@@ -1,7 +1,6 @@
 from flask import Flask, jsonify
 from flask_restful import Api
-from flask_jwt import JWT
-from security import authentication, identity
+from flask_jwt_extended import JWTManager
 from resources.product import Product, ProductList, ProductGenre, ProductPrice
 from resources.store import Store, StoreList
 from resources.user import UserRegister, UserList, User
@@ -17,7 +16,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = "Tarek"
 api = Api(app)
 
-jwt = JWT(app, authentication, identity)
+jwt = JWTManager(app)
 
 
 # creating the tables
