@@ -5,23 +5,16 @@ class UserModel(database.Model):
     __tablename__ = "users"
 
     id = database.Column(database.Integer, primary_key=True)
-    first_name = database.Column(database.String(80))
-    last_name = database.Column(database.String(80))
-    username = database.Column(database.String(80))
-    password = database.Column(database.String(80))
-    email = database.Column(database.String(120))
+    first_name = database.Column(database.String(80), nullable=False)
+    last_name = database.Column(database.String(80), nullable=False)
+    username = database.Column(database.String(80), unique=True, nullable=False)
+    password = database.Column(database.String(80), nullable=False)
+    email = database.Column(database.String(120), nullable=False)
 
-    rate_to_product = database.relationship("RateToProductModel")
-    rate_to_owner = database.relationship("RateToOwnerModel")
-    orders = database.relationship("OrderModel")
-
-    def __init__(self, first_name, last_name, username, password, email):
-        self.first_name = first_name
-        self.last_name = last_name
-        self.username = username
-        self.password = password
-        self.email = email
-
+    # rate_to_product = database.relationship("RateToProductModel")
+    # rate_to_owner = database.relationship("RateToOwnerModel")
+    # orders = database.relationship("OrderModel")
+    
     def save_to_database(self):
         database.session.add(self)
         database.session.commit()

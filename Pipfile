@@ -7,12 +7,12 @@ name = "pypi"
 flask-restplus = "*"
 numpy = "*"
 marshmallow = "*"
-flask-marshmallow = "*"
-marshmallow-sqlalchemy = "*"
 Flask = "*"
 Flask-RESTful = "*"
 Flask-JWT = "*"
 Flask-SQLAlchemy = "*"
+marshmallow-sqlalchemy = "*"
+flask-marshmallow = "*"
 
 [dev-packages]
 
