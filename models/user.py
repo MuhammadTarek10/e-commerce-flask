@@ -30,12 +30,15 @@ class UserModel(database.Model):
         database.session.add(self)
         database.session.commit()
 
+    def delete_from_database(self):
+        database.session.delete(self)
+        database.session.commit()
+
     def send_confirmation_email(self):
-        link = request.url_root[:-1] + url_for("userconfirm". user_id=self.id)
+        link = request.url_root[:-1] + url_for("userconfirm", user_id=self.id)
         subject = "Registration Confirmation"
         text = f"Hi, Click the link to confirm Registration: {link}"
         html = f'<html>Hi, Click the link to confirm Registration: <a href="{link}">{link}</a></html>'
-
 
         return Mailgun.send_email([self.email], subject, text, html)
 
