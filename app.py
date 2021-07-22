@@ -1,9 +1,10 @@
+import os
 from flask import Flask, jsonify
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from resources.product import Product, ProductList, ProductGenre, ProductPrice
 from resources.store import Store, StoreList
-from resources.user import UserRegister, UserList, User, UserLogin
+from resources.user import UserRegister, UserList, User, UserLogin, UserConfirm
 from resources.owner import OwnerRegister, OwnerList
 from resources.rate_to_product import RateToPoduct
 from resources.rate_to_owner import RateToOwner
@@ -11,9 +12,9 @@ from resources.order import Order
  
 # just setting database and app
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db/"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.secret_key = "Tarek"
+app.secret_key = os.environ.get("APP_SECRET_KEY")
 api = Api(app)
 
 jwt = JWTManager(app)
@@ -28,6 +29,7 @@ def create_table():
 api.add_resource(UserRegister, "/user/register")
 api.add_resource(User, "/user/<int:user_id>")
 api.add_resource(UserLogin, "/login")
+api.add_resource(UserConfirm, "/confirm/<int:user_id>")
 api.add_resource(UserList, "/users")
 api.add_resource(OwnerRegister, "/owner/register")
 api.add_resource(OwnerList, "/owners")

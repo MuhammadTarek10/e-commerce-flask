@@ -1,4 +1,7 @@
 from database import database
+from flask import request, url_for
+from requests import post
+from libs.mailgun import Mailgun
 
 
 class UserModel(database.Model):
@@ -7,9 +10,10 @@ class UserModel(database.Model):
     id = database.Column(database.Integer, primary_key=True)
     first_name = database.Column(database.String(80))
     last_name = database.Column(database.String(80))
-    username = database.Column(database.String(80))
+    username = database.Column(database.String(80), unique=True)
     password = database.Column(database.String(80))
-    email = database.Column(database.String(120))
+    email = database.Column(database.String(120), unique=True)
+    activated = database.Column(database.Boolean, default=False)
 
     rate_to_product = database.relationship("RateToProductModel")
     rate_to_owner = database.relationship("RateToOwnerModel")
@@ -26,6 +30,15 @@ class UserModel(database.Model):
         database.session.add(self)
         database.session.commit()
 
+    def send_confirmation_email(self):
+        link = request.url_root[:-1] + url_for("userconfirm". user_id=self.id)
+        subject = "Registration Confirmation"
+        text = f"Hi, Click the link to confirm Registration: {link}"
+        html = f'<html>Hi, Click the link to confirm Registration: <a href="{link}">{link}</a></html>'
+
+
+        return Mailgun.send_email([self.email], subject, text, html)
+
     def json(self):
         return {"username": self.username, "email": self.email}
 
@@ -36,3 +49,7 @@ class UserModel(database.Model):
     @classmethod
     def find_by_id(cls, _id):
         return cls.query.filter_by(id=_id).first()
+
+    @classmethod
+    def find_by_email(cls, email):
+        return cls.query.filter_by(email=email).first()
