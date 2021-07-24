@@ -4,7 +4,8 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from resources.product import Product, ProductList, ProductGenre, ProductPrice
 from resources.store import Store, StoreList
-from resources.user import UserRegister, UserList, User, UserLogin, UserConfirm
+from resources.user import UserRegister, UserList, User, UserLogin
+from resources.confirmation import Confirmation, ConfirmationByUser
 from resources.owner import OwnerRegister, OwnerList
 from resources.rate_to_product import RateToPoduct
 from resources.rate_to_owner import RateToOwner
@@ -29,7 +30,6 @@ def create_table():
 api.add_resource(UserRegister, "/user/register")
 api.add_resource(User, "/user/<int:user_id>")
 api.add_resource(UserLogin, "/login")
-api.add_resource(UserConfirm, "/confirm/<int:user_id>")
 api.add_resource(UserList, "/users")
 api.add_resource(OwnerRegister, "/owner/register")
 api.add_resource(OwnerList, "/owners")
@@ -42,8 +42,8 @@ api.add_resource(StoreList, "/stores")
 api.add_resource(RateToPoduct, "/rate_product/<float:rate>")
 api.add_resource(RateToOwner, "/rate_owner/<float:rate>")
 api.add_resource(Order, "/order")
-
-
+api.add_resource(Confirmation, "/confirm/<string:confirmation_id>")
+api.add_resource(ConfirmationByUser, "/confirmation/user/<int:user_id>")
 
 
 if __name__ == "__main__":

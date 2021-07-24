@@ -1,7 +1,7 @@
 flask
 flask-restful
 flask-restplus
-flask-jwt
+flask-jwt-extended
 flask-sqlalchemy
 numpy
 marshmallow

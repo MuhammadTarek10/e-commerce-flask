@@ -11,7 +11,7 @@ class Confirmation(Resource):
     def get(self, confirmation_id):
         confirmation = ConfirmationModel.find_by_id(confirmation_id)
         if not confirmation:
-            return {"message": "not found"}, 404
+            return {"message": "confirmation not found"}, 404
 
         if confirmation.expired:
             return {"message": "confirmation expired"}, 400
@@ -24,7 +24,7 @@ class Confirmation(Resource):
 
         headers = {"Content-Type": "text/html"}
         return make_response(
-            render_template("confirmation_path.html", email=confirmation.user.email),
+            render_template("confirmation_page.html", email=confirmation.user.email),
             200,
             headers
         )

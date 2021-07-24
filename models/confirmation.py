@@ -11,7 +11,7 @@ class ConfirmationModel(database.Model):
     id = database.Column(database.String(50), primary_key=True)
     expire_at = database.Column(database.Integer)
     confirmed = database.Column(database.Boolean, default=False)
-    user_id = database.Column(database.Integer, database.ForeignKey("user.id"))
+    user_id = database.Column(database.Integer, database.ForeignKey("users.id"))
     user = database.relationship("UserModel")
 
     def __init__(self, user_id, **kwargs):

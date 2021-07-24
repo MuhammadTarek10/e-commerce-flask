@@ -15,7 +15,7 @@ class UserModel(database.Model):
     password = database.Column(database.String(80))
     email = database.Column(database.String(120), unique=True)
 
-    confirmation = database.relationship("ConfirmationModel", lazy='dynamic', cascade="all, delete-orphan")
+    confirmation = database.relationship("ConfirmationModel", lazy='dynamic', cascade="all, delete-orphan", overlaps="user")
     rate_to_product = database.relationship("RateToProductModel")
     rate_to_owner = database.relationship("RateToOwnerModel")
     orders = database.relationship("OrderModel")
@@ -40,7 +40,7 @@ class UserModel(database.Model):
         database.session.commit()
 
     def send_confirmation_email(self):
-        link = request.url_root[:-1] + url_for("confirmation", confirmation_id=self.most_recent_confirmation)
+        link = request.url_root[:-1] + url_for("confirmation", confirmation_id=self.most_recent_confirmation.id)
         subject = "Registration Confirmation"
         text = f"Hi, Click the link to confirm Registration: {link}"
         html = f'<html>Hi, Click the link to confirm Registration: <a href="{link}">{link}</a></html>'
