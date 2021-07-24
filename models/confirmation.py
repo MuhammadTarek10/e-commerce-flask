@@ -20,6 +20,10 @@ class ConfirmationModel(database.Model):
         self.id = uuid4().hex
         self.expire_at = int(time()) + CONFIRMATION_EXPIRATION_DELTA
 
+    def json(self):
+        return {"confirmed": self.confirmed, "expire_at": self.expire_at}
+
+
     @classmethod
     def find_by_id(cls, _id):
         return cls.query.filter_by(id=_id).first()
