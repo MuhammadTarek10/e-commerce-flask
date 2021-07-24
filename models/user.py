@@ -1,6 +1,7 @@
 from database import database
 from flask import request, url_for
 from requests import post
+from models.confirmation import ConfirmationModel
 from libs.mailgun import Mailgun
 
 
@@ -13,11 +14,15 @@ class UserModel(database.Model):
     username = database.Column(database.String(80), unique=True)
     password = database.Column(database.String(80))
     email = database.Column(database.String(120), unique=True)
-    activated = database.Column(database.Boolean, default=False)
 
+    confirmation = database.relationship("ConfirmationModel", lazy='dynamic', cascade="all, delete-orphan")
     rate_to_product = database.relationship("RateToProductModel")
     rate_to_owner = database.relationship("RateToOwnerModel")
     orders = database.relationship("OrderModel")
+
+    @property
+    def most_recent_confirmation(self):
+        return self.confirmation.order_by(database.desc(ConfirmationModel.expire_at)).first()
 
     def __init__(self, first_name, last_name, username, password, email):
         self.first_name = first_name
@@ -35,7 +40,7 @@ class UserModel(database.Model):
         database.session.commit()
 
     def send_confirmation_email(self):
-        link = request.url_root[:-1] + url_for("userconfirm", user_id=self.id)
+        link = request.url_root[:-1] + url_for("confirmation", confirmation_id=self.most_recent_confirmation)
         subject = "Registration Confirmation"
         text = f"Hi, Click the link to confirm Registration: {link}"
         html = f'<html>Hi, Click the link to confirm Registration: <a href="{link}">{link}</a></html>'
