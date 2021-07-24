@@ -1,7 +1,10 @@
 import os
-from flask import Flask, jsonify
+from dotenv import load_dotenv
+from flask import Flask
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from flask_uploads import configure_uploads
+
 from resources.product import Product, ProductList, ProductGenre, ProductPrice
 from resources.store import Store, StoreList
 from resources.user import UserRegister, UserList, User, UserLogin
@@ -10,12 +13,15 @@ from resources.owner import OwnerRegister, OwnerList
 from resources.rate_to_product import RateToPoduct
 from resources.rate_to_owner import RateToOwner
 from resources.order import Order
+from resources.image import ImageUpload, Image
+from libs.image_helper import IMAGE_SET
  
 # just setting database and app
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE")
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.secret_key = os.environ.get("APP_SECRET_KEY")
+load_dotenv(".env", verbose=True)
+app.config.from_object("default_config")
+app.config.from_envvar("APPLICATION_SETTINGS")
+configure_uploads(app, IMAGE_SET)
 api = Api(app)
 
 jwt = JWTManager(app)
@@ -44,10 +50,11 @@ api.add_resource(RateToOwner, "/rate_owner/<float:rate>")
 api.add_resource(Order, "/order")
 api.add_resource(Confirmation, "/confirm/<string:confirmation_id>")
 api.add_resource(ConfirmationByUser, "/confirmation/user/<int:user_id>")
-
+api.add_resource(ImageUpload, "/upload/image")
+api.add_resource(Image, "/image/<string:filename>")
 
 if __name__ == "__main__":
     from database import database
 
     database.init_app(app)
-    app.run(port=5000, debug=True)
+    app.run(port=5000)
