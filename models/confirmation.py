@@ -21,7 +21,7 @@ class ConfirmationModel(database.Model):
         self.expire_at = int(time()) + CONFIRMATION_EXPIRATION_DELTA
 
     def json(self):
-        return {"confirmed": self.confirmed, "expire_at": self.expire_at}
+        return {"confirmed": self.confirmed, "expire_at": self.expire_at, "confirmation_id": self.id}
 
 
     @classmethod
